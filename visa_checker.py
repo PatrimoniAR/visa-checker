@@ -1,5 +1,4 @@
 import requests
-import time
 from bs4 import BeautifulSoup
 import os
 
@@ -42,24 +41,17 @@ def obtener_estado_spain():
         return None
 
 def main():
-    estado_prev = None
-    while True:
-        print("🔎 Verificando estado de Spain...")
-        estado = obtener_estado_spain()
+    print("🔎 Verificando estado de Spain...")
+    estado = obtener_estado_spain()
 
-        if estado:
-            print(f"📌 Estado actual: {estado}")
-            # Cambié aquí para que compruebe "paused" en lugar de "open"
-            if estado == "paused" and estado != estado_prev:
-                mensaje = "🇦🇺 ¡El estado de la visa Work and Holiday para España está PAUSED! (Prueba de mensaje)"
-                enviar_telegram(mensaje)
-                break  # Puedes quitar esto si quieres que siga ejecutándose siempre
-            estado_prev = estado
-        else:
-            print("⚠️ No se pudo obtener el estado.")
-
-
-        time.sleep(600)  # Espera 10 minutos
+    if estado:
+        print(f"📌 Estado actual: {estado}")
+        # Cambia 'paused' por 'open' para producción
+        if estado == "paused":
+            mensaje = "🇦🇺 ¡El estado de la visa Work and Holiday para España está PAUSED! (Prueba de mensaje)"
+            enviar_telegram(mensaje)
+    else:
+        print("⚠️ No se pudo obtener el estado.")
 
 if __name__ == "__main__":
     main()

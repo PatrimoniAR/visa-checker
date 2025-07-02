@@ -2,7 +2,7 @@ name: VisaChecker Bot
 
 on:
   schedule:
-    - cron: '*/10 * * * *'  # Cada 10 minutos
+    - cron: '*/10 * * * *'  # Cada 10 minutoss
   workflow_dispatch:
 
 jobs:

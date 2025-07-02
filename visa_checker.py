@@ -47,7 +47,7 @@ def main():
     if estado:
         print(f"📌 Estado actual: {estado}")
         # Cambia 'paused' por 'open' para producción
-        if estado == "paused":
+        if estado.strip().lower() == "paused":
             mensaje = "🇦🇺 ¡El estado de la visa Work and Holiday para España está PAUSED! (Prueba de mensaje)"
             enviar_telegram(mensaje)
     else:

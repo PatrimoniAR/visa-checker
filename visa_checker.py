@@ -49,13 +49,15 @@ def main():
 
         if estado:
             print(f"📌 Estado actual: {estado}")
-            if estado == "open" and estado != estado_prev:
-                mensaje = "🇦🇺 ¡El estado de la visa Work and Holiday para España ahora está OPEN!"
+            # Cambié aquí para que compruebe "paused" en lugar de "open"
+            if estado == "paused" and estado != estado_prev:
+                mensaje = "🇦🇺 ¡El estado de la visa Work and Holiday para España está PAUSED! (Prueba de mensaje)"
                 enviar_telegram(mensaje)
                 break  # Puedes quitar esto si quieres que siga ejecutándose siempre
             estado_prev = estado
         else:
             print("⚠️ No se pudo obtener el estado.")
+
 
         time.sleep(600)  # Espera 10 minutos
 

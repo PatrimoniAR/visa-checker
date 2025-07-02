@@ -45,13 +45,17 @@ def main():
     estado = obtener_estado_spain()
 
     if estado:
-        print(f"📌 Estado actual: {estado}")
-        # Cambia 'paused' por 'open' para producción
-        if estado.strip().lower() == "paused":
+        print(f"📌 Estado actual (raw): {repr(estado)}")
+        estado_limpio = estado.encode('ascii', 'ignore').decode().strip().lower()
+        if estado_limpio == "paused":
             mensaje = "🇦🇺 ¡El estado de la visa Work and Holiday para España está PAUSED! (Prueba de mensaje)"
             enviar_telegram(mensaje)
+        else:
+            print(f"ℹ️ Estado detectado, pero no es 'paused': {estado_limpio}")
     else:
         print("⚠️ No se pudo obtener el estado.")
+
+
 
 if __name__ == "__main__":
     main()

@@ -7,7 +7,7 @@ URL = "https://immi.homeaffairs.gov.au/what-we-do/whm-program/status-of-country-
 
 # Leer desde variables de entorno
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_IDS")
+TELEGRAM_CHAT_IDS = os.getenv("TELEGRAM_CHAT_IDS")
 
 def enviar_telegram(mensaje):
     if not TELEGRAM_CHAT_IDS:

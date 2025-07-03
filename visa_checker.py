@@ -7,19 +7,26 @@ URL = "https://immi.homeaffairs.gov.au/what-we-do/whm-program/status-of-country-
 
 # Leer desde variables de entorno
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_IDS")
 
 def enviar_telegram(mensaje):
-    try:
-        url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-        data = {"chat_id": TELEGRAM_CHAT_ID, "text": mensaje}
-        response = requests.post(url, data=data)
-        if response.status_code == 200:
-            print("✅ Mensaje Telegram enviado")
-        else:
-            print("❌ Error en Telegram:", response.text)
-    except Exception as e:
-        print(f"❌ Error Telegram: {e}")
+    if not TELEGRAM_CHAT_IDS:
+        print("⚠️ No hay chat_ids configurados.")
+        return
+
+    chat_ids = [chat_id.strip() for chat_id in TELEGRAM_CHAT_IDS.split(",")]
+    
+    for chat_id in chat_ids:
+        try:
+            url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+            data = {"chat_id": chat_id, "text": mensaje}
+            response = requests.post(url, data=data)
+            if response.status_code == 200:
+                print(f"✅ Mensaje enviado a {chat_id}")
+            else:
+                print(f"❌ Error al enviar a {chat_id}: {response.text}")
+        except Exception as e:
+            print(f"❌ Excepción para {chat_id}: {e}")
 
 def obtener_estado_spain():
     try:
@@ -47,8 +54,8 @@ def main():
     if estado:
         print(f"📌 Estado actual (raw): {repr(estado)}")
         estado_limpio = estado.encode('ascii', 'ignore').decode().strip().lower()
-        if estado_limpio == "open":
-            mensaje = "🇦🇺 ¡El estado de la visa Work and Holiday para España está OPEN!"
+        if estado_limpio == "paused":
+            mensaje = "🇦🇺 ¡El estado de la visa Work and Holiday para España está PAUSED!"
             enviar_telegram(mensaje)
         else:
             print(f"ℹ️ Estado detectado, pero no es 'OPEN': {estado_limpio}")
